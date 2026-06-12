@@ -77,10 +77,33 @@ def prettify_value(value):
 
 
 def prettify_display_text(value):
-    if isinstance(value, str) and "_" in value:
-        return prettify_value(value)
+    if isinstance(value, str):
+        clean_value = prettify_value(value)
+
+        if "_" in value or clean_value != value:
+            return clean_value
 
     return value
+
+
+def format_percent_value(value, default="N/A"):
+    if value is None or pd.isna(value):
+        return default
+
+    try:
+        return f"{float(value):.2%}"
+    except (TypeError, ValueError):
+        return default
+
+
+def format_number_value(value, default="N/A"):
+    if value is None or pd.isna(value):
+        return default
+
+    try:
+        return f"{float(value):.2f}"
+    except (TypeError, ValueError):
+        return default
 
 
 def prettify_chart_categories(dataframe, columns):
@@ -121,6 +144,8 @@ def style_dark_dataframe(dataframe):
                     ("font-family", "Geist, Inter, Segoe UI, sans-serif"),
                     ("font-weight", "500"),
                     ("letter-spacing", "0.01em"),
+                    ("font-size", "0.82rem"),
+                    ("padding", "0.42rem 0.58rem"),
                 ],
             },
             {
@@ -131,6 +156,8 @@ def style_dark_dataframe(dataframe):
                     ("border-color", "#1F2937"),
                     ("font-family", "Geist, Inter, Segoe UI, sans-serif"),
                     ("font-weight", "400"),
+                    ("font-size", "0.82rem"),
+                    ("padding", "0.38rem 0.58rem"),
                 ],
             },
             {
@@ -260,6 +287,62 @@ def show_reference_overview(
             "risk, backtesting, and research outputs."
         )
     )
+    live_results = st.session_state["live_results"]
+    risk_source = (
+        live_results.get("live_risk_dashboard_table", pd.DataFrame())
+        if live_results is not None
+        else globals().get("risk_dashboard", pd.DataFrame())
+    )
+    var_source = (
+        live_results.get("value_at_risk_summary", pd.DataFrame())
+        if live_results is not None
+        else globals().get("value_at_risk_summary", pd.DataFrame())
+    )
+    concentration_source = (
+        live_results.get("live_concentration_table", pd.DataFrame())
+        if live_results is not None
+        else globals().get("concentration_summary", pd.DataFrame())
+    )
+    tail_source = (
+        live_results.get("live_tail_risk_table", pd.DataFrame())
+        if live_results is not None
+        else globals().get("tail_risk_summary", pd.DataFrame())
+    )
+    value_at_risk = get_first_value(
+        risk_source,
+        "historical_var_95",
+        get_first_value(var_source, "historical_var", None),
+    )
+    cvar_value = get_first_value(
+        risk_source,
+        "historical_cvar_95",
+        get_first_value(var_source, "historical_cvar", None),
+    )
+    concentration_value = get_first_value(
+        risk_source,
+        "hhi",
+        get_first_value(concentration_source, "hhi", None),
+    )
+    tail_ratio_value = get_first_value(
+        risk_source,
+        "tail_ratio",
+        get_first_value(tail_source, "tail_ratio", None),
+    )
+    risk_status = "Moderate"
+    if concentration_value is not None and not pd.isna(concentration_value):
+        risk_status = "Elevated" if float(concentration_value) >= 0.65 else "Moderate"
+    regime_text = prettify_display_text(regime)
+    model_text = prettify_display_text(adaptive_model)
+    sharpe_note = (
+        "Backtest shows positive risk-adjusted performance."
+        if sharpe_ratio > 0
+        else "Risk-adjusted performance needs review."
+    )
+    concentration_note = (
+        "Portfolio concentration remains moderate."
+        if risk_status == "Moderate"
+        else "Portfolio concentration is elevated."
+    )
 
     st.markdown(
         f"""
@@ -267,7 +350,6 @@ def show_reference_overview(
             <div class="dashboard-panel performance-panel">
                 <div class="panel-header">
                     <span>Live Portfolio Performance</span>
-                    <div class="range-tabs"><span>1M</span><span>3M</span><span>6M</span><span>1Y</span><b>ALL</b></div>
                 </div>
                 <svg class="performance-chart" viewBox="0 0 760 250" preserveAspectRatio="none">
                     <defs>
@@ -301,11 +383,12 @@ def show_reference_overview(
             <div class="dashboard-panel risk-panel">
                 <div class="panel-header"><span>Risk Summary</span></div>
                 <div class="risk-list">
-                    <div><span>Max Drawdown</span><strong class="negative">{max_drawdown:.2%}</strong></div>
-                    <div><span>Value at Risk (95%)</span><strong class="negative">{max_drawdown * 0.58:.2%}</strong></div>
-                    <div><span>Concentration Risk (HHI)</span><strong>0.52</strong></div>
-                    <div><span>Tail Ratio</span><strong>0.21</strong></div>
-                    <div><span>Risk Status</span><strong class="yellow">Moderate</strong></div>
+                    <div><span><i class="risk-dot red-dot"></i>Max Drawdown</span><strong class="negative">{max_drawdown:.2%}</strong></div>
+                    <div><span><i class="risk-dot red-dot"></i>Value at Risk</span><strong class="negative">{format_percent_value(value_at_risk)}</strong></div>
+                    <div><span><i class="risk-dot red-dot"></i>CVaR</span><strong class="negative">{format_percent_value(cvar_value)}</strong></div>
+                    <div><span><i class="risk-dot slate-dot"></i>Concentration Risk</span><strong>{format_number_value(concentration_value)}</strong></div>
+                    <div><span><i class="risk-dot slate-dot"></i>Tail Ratio</span><strong>{format_number_value(tail_ratio_value)}</strong></div>
+                    <div><span><i class="risk-dot yellow-dot"></i>Risk Status</span><strong class="yellow">{risk_status}</strong></div>
                 </div>
             </div>
             <div class="dashboard-panel conclusion-panel">
@@ -318,17 +401,18 @@ def show_reference_overview(
                     <div><span>Optimized Max Sharpe Return</span><strong class="positive">{expected_return:.2%}</strong></div>
                     <div><span>Optimized Max Sharpe Volatility</span><strong class="blue">{volatility:.2%}</strong></div>
                     <div><span>Optimized Max Sharpe Ratio</span><strong class="purple">{sharpe_ratio:.3f}</strong></div>
-                    <div><span>Current Market Regime</span><strong class="yellow">{prettify_display_text(regime)}</strong></div>
-                    <div><span>Recommended Forecast Model</span><strong class="cyan">{prettify_display_text(adaptive_model)}</strong></div>
+                    <div><span>Current Market Regime</span><strong class="yellow">{regime_text}</strong></div>
+                    <div><span>Recommended Forecast Model</span><strong class="cyan">{model_text}</strong></div>
                 </div>
             </div>
             <div class="dashboard-panel insight-panel">
                 <div class="panel-header"><span>Recent Insights</span></div>
                 <ul>
-                    <li>Market regime is {prettify_display_text(regime)}.</li>
-                    <li>{prettify_display_text(adaptive_model)} is the recommended forecast model.</li>
-                    <li>Portfolio risk remains within review range.</li>
-                    <li>Backtest profile supports the current allocation view.</li>
+                    <li>Market regime is {regime_text}.</li>
+                    <li>{model_text} is the recommended forecast model.</li>
+                    <li>{concentration_note}</li>
+                    <li>{sharpe_note}</li>
+                    <li>Key risk metrics are within review range.</li>
                 </ul>
             </div>
         </div>
@@ -1549,14 +1633,14 @@ st.markdown(
     }
 
     .metric-card {
-        min-height: 112px;
-        padding: 1rem 1.05rem;
+        min-height: 84px;
+        padding: 0.72rem 0.9rem;
         border-radius: 8px;
         background:
             linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(8, 13, 24, 0.88));
         border: 1px solid rgba(148, 163, 184, 0.15);
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.27);
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.62rem;
         position: relative;
         overflow: hidden;
     }
@@ -1565,9 +1649,9 @@ st.markdown(
         content: "";
         position: absolute;
         right: 0.9rem;
-        bottom: 1.05rem;
-        width: 4.8rem;
-        height: 1.35rem;
+        bottom: 0.82rem;
+        width: 4rem;
+        height: 1rem;
         opacity: 0.82;
         background:
             linear-gradient(135deg, transparent 12%, currentColor 13%, currentColor 16%, transparent 17%),
@@ -1576,25 +1660,25 @@ st.markdown(
     }
 
     .metric-label {
-        font-size: 0.64rem;
+        font-size: 0.6rem;
         text-transform: uppercase;
         letter-spacing: 0.16em;
         color: #94A3B8;
         font-weight: 500;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.36rem;
     }
 
     .metric-value {
-        font-size: 1.36rem;
+        font-size: 1.22rem;
         line-height: 1.15;
         font-weight: 540;
         letter-spacing: 0.004em;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.34rem;
         overflow-wrap: anywhere;
     }
 
     .metric-caption {
-        font-size: 0.78rem;
+        font-size: 0.72rem;
         color: #AAB6C5;
         font-weight: 380;
         line-height: 1.5;
@@ -1648,21 +1732,6 @@ st.markdown(
         font-size: 0.78rem;
         letter-spacing: 0.06em;
         font-weight: 600;
-    }
-
-    .range-tabs {
-        display: flex;
-        gap: 0.85rem;
-        color: #C6D0DD;
-        font-size: 0.74rem;
-    }
-
-    .range-tabs b {
-        color: #60A5FA;
-        background: rgba(29, 78, 216, 0.42);
-        padding: 0.16rem 0.42rem;
-        border-radius: 5px;
-        font-weight: 500;
     }
 
     .performance-chart {
@@ -1798,6 +1867,24 @@ st.markdown(
         border-bottom: 1px solid rgba(148, 163, 184, 0.10);
     }
 
+    .risk-list span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.42rem;
+    }
+
+    .risk-dot {
+        width: 0.48rem;
+        height: 0.48rem;
+        border-radius: 999px;
+        display: inline-block;
+        flex: 0 0 auto;
+    }
+
+    .red-dot { background: rgba(239, 68, 68, 0.72); }
+    .slate-dot { background: rgba(148, 163, 184, 0.72); }
+    .yellow-dot { background: rgba(250, 204, 21, 0.82); }
+
     .risk-list div:last-child {
         border-bottom: 0;
         padding-bottom: 0;
@@ -1870,6 +1957,7 @@ st.markdown(
         border: 1px solid rgba(148, 163, 184, 0.16);
         background: #0B1220 !important;
         color: #D6DEE9 !important;
+        font-size: 0.82rem !important;
     }
 
     div[data-testid="stDataFrame"] div {
@@ -1880,6 +1968,18 @@ st.markdown(
     div[data-testid="stDataFrame"] [role="grid"],
     div[data-testid="stDataFrame"] [data-testid="stTable"],
     div[data-testid="stDataFrame"] canvas {
+        background-color: #0B1220 !important;
+        color: #D6DEE9 !important;
+    }
+
+    div[data-testid="stDataFrame"] [role="columnheader"],
+    div[data-testid="stDataFrame"] [role="rowheader"] {
+        background-color: #101827 !important;
+        color: #E5E7EB !important;
+        font-weight: 500 !important;
+    }
+
+    div[data-testid="stDataFrame"] [role="gridcell"] {
         background-color: #0B1220 !important;
         color: #D6DEE9 !important;
     }
@@ -2157,13 +2257,14 @@ show_top_bar()
 
 st.markdown(
     """
-    <div class="hero-card">
-        <div class="section-label">Institutional Research Platform</div>
-        <div class="hero-title">Portfolio Research Platform</div>
-        <div class="hero-subtitle">
-            Live institutional research and intelligence for your selected portfolio.
+        <div class="hero-card">
+            <div class="section-label">Institutional Research Platform</div>
+            <div class="hero-title">Portfolio Optimizer</div>
+            <div class="hero-subtitle">
+            Live portfolio intelligence for optimization, risk analysis, backtesting,
+            regime research, and investment reporting.
+            </div>
         </div>
-    </div>
     """,
     unsafe_allow_html=True,
 )
@@ -2309,7 +2410,7 @@ with tabs[0]:
             show_metric_card(
                 "Annualized Return",
                 f"{optimized_backtest['annualized_return']:.2%}",
-                "Exported Backtest",
+                "Research Baseline",
                 "green",
             )
 
@@ -2317,7 +2418,7 @@ with tabs[0]:
             show_metric_card(
                 "Annualized Volatility",
                 f"{optimized_backtest['annualized_volatility']:.2%}",
-                "Exported Backtest",
+                "Research Baseline",
                 "blue",
             )
 
@@ -2325,7 +2426,7 @@ with tabs[0]:
             show_metric_card(
                 "Sharpe Ratio",
                 f"{optimized_backtest['sharpe_ratio']:.3f}",
-                "Exported Backtest",
+                "Research Baseline",
                 "purple",
             )
 
@@ -2333,7 +2434,7 @@ with tabs[0]:
             show_metric_card(
                 "Maximum Drawdown",
                 f"{optimized_backtest['max_drawdown']:.2%}",
-                "Exported Backtest",
+                "Research Baseline",
                 "red",
             )
 
@@ -2752,7 +2853,7 @@ with tabs[5]:
         show_dataframe("Regime Strategy Dashboard", regime_strategy_dashboard)
 
 with tabs[6]:
-    st.header("Portfolio Research Platform")
+    st.header("Research Platform")
 
     show_section_intro(
         "Institutional Research",
