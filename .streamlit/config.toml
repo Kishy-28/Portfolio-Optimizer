@@ -1,0 +1,11 @@
+[theme]
+base = "dark"
+primaryColor = "#1687FF"
+backgroundColor = "#070D17"
+secondaryBackgroundColor = "#0B1220"
+textColor = "#F9FAFB"
+linkColor = "#38BDF8"
+borderColor = "#1F2937"
+dataframeBorderColor = "#1F2937"
+dataframeHeaderBackgroundColor = "#101827"
+codeBackgroundColor = "#0B1220"
