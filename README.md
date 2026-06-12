@@ -72,25 +72,6 @@ Live mode runs the optimizer from the current sidebar inputs and updates the das
 
 Export fallback mode keeps the app usable when live results have not been generated. In that mode, the dashboard reads saved research outputs from `exports/`.
 
-## Resume Bullets
-
-- Built a Streamlit portfolio analytics dashboard with live optimization, risk review, backtesting, and downloadable research outputs.
-- Implemented a fallback reporting workflow that keeps the dashboard usable from saved exports when live calculations are not active.
-- Designed a dark fintech-style interface with cleaned tables, Plotly visualizations, and organized research sections for portfolio review.
-
-## LinkedIn Project Description
-
-I built a Portfolio Optimizer dashboard in Streamlit to make portfolio research easier to review and present. The app supports live optimization scenarios, backtesting, risk analytics, regime and forecast research, and saved output downloads in a polished dark interface.
-
-## Interview Talking Points
-
-- Why I built it: To turn portfolio optimization research into an interactive dashboard that is easier to explore, explain, and share.
-- What the optimizer does: It compares portfolio allocations using return, volatility, Sharpe ratio, drawdown, and related risk metrics.
-- How live mode works: The Streamlit sidebar sends the selected inputs into the live optimizer and updates the dashboard with fresh results.
-- How export fallback works: If live results are not available, the app reads saved research outputs from `exports/` so the dashboard still has usable content.
-- Risk analytics included: Value at Risk, stress tests, drawdown analysis, market shocks, concentration risk, tail risk, and governance-style summaries.
-- What I would improve next: Add authentication, richer portfolio upload support, persistent scenario history, and more production-grade deployment monitoring.
-
 ## Expected Repo Structure
 
 ```text
