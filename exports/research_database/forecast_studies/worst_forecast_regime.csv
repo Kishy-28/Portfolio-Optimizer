@@ -1,0 +1,2 @@
+market_regime,observations,average_forecast_return,average_realized_return,average_forecast_error,mean_absolute_error,mean_squared_error,directional_accuracy,root_mean_squared_error
+Bear / Low Volatility,4,0.27545137943377773,0.14552287095389393,0.12992850847988377,0.12992850847988377,0.01890686615133516,1.0,0.1375022405320552

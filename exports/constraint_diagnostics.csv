@@ -1,0 +1,3 @@
+portfolio,max_sector_exposure,max_sector_limit,passes_sector_constraint,max_risk_contribution,max_risk_contribution_limit,passes_risk_contribution_constraint,turnover,max_turnover_limit,passes_turnover_constraint,passes_all_constraints
+Max Sharpe with Institutional Constraints,0.34830389414996826,0.7,True,0.3499997676020291,0.35,True,0.49999999999999983,0.5,True,True
+Turnover-Constrained Max Sharpe Portfolio,0.3483038941526568,0.7,True,0.3499997676048915,0.35,True,0.5000000000000002,0.5,True,True

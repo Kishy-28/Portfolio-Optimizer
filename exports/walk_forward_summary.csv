@@ -1,0 +1,2 @@
+number_of_windows,average_test_return,average_test_volatility,average_test_sharpe,average_test_drawdown,best_window_return,worst_window_return
+1,-0.3365340840669149,0.3522848795973572,-1.0120618417526586,-0.35370187951304055,-0.3354530243790157,-0.3354530243790157

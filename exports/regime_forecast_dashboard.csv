@@ -1,0 +1,10 @@
+category,metric,value
+Current Market Regime,Latest Regime,Bull / Low Volatility
+Regime Performance,Best Regime,Bear / High Volatility
+Regime Performance,Worst Regime,Crisis
+Forecast Reliability,Best Forecast Regime,Bear / Low Volatility
+Forecast Reliability,Worst Forecast Regime,Bear / Low Volatility
+Forecast Model Ranking,Best Forecast Model,Momentum
+Forecast Model Ranking,Worst Forecast Model,Exponential Weighted
+Adaptive Forecast Recommendation,Recommended Forecast Model,Momentum
+Adaptive Forecast Recommendation,Expected Forecast Error,0.08129169079137555

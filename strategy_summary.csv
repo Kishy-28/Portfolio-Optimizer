@@ -1,0 +1,7 @@
+strategy_name,strategy_type,description,AAPL,MSFT,GOOGL,AMZN
+Optimized Max Sharpe,Optimization,Portfolio optimized to maximize Sharpe ratio.,0.6,0.0,3.9898639947466563e-17,0.4000000000000001
+Optimized Minimum Volatility,Optimization,Portfolio optimized to minimize volatility.,0.3008521541511283,0.13994132927357464,0.2822992441822309,0.2769072723930661
+Risk Parity,Risk-Based,Portfolio designed to balance risk contribution.,0.25634902130909126,0.23656683376902896,0.2538095048091207,0.25327464011275913
+Constrained Max Sharpe,Institutional Constraint,Max Sharpe portfolio with institutional constraints.,0.34773858131898344,0.0,0.3039577661561065,0.3483036525249101
+Turnover-Constrained Max Sharpe,Implementation-Aware,Max Sharpe portfolio with turnover constraints.,0.3477385813216831,0.0,0.30395776615051456,0.3483036525278025
+Equal Weight,Baseline,Naive equally weighted benchmark portfolio.,0.25,0.25,0.25,0.25

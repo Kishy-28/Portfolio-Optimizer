@@ -1,0 +1,8 @@
+risk_check,metric_value,limit,passes
+Maximum Drawdown Limit,-0.3933362877689044,0.25,False
+Maximum Position Weight Limit,0.6,0.6,True
+Minimum Sortino Ratio,0.7140233296011415,1.0,False
+historical_var_95 Limit,-0.03035300090937675,0.05,True
+historical_cvar_95 Limit,-0.044972840731902115,0.08,True
+historical_var_99 Limit,-0.05499295955858019,0.05,False
+historical_cvar_99 Limit,-0.06947615836051288,0.08,True

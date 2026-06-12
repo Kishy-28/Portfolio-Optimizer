@@ -1,0 +1,2 @@
+number_of_tests,average_sharpe_ratio,minimum_sharpe_ratio,maximum_sharpe_ratio,average_total_return,minimum_total_return,maximum_total_return,average_max_drawdown
+12,0.6408724886024141,0.5539350257356679,0.735928886960393,1.2128919989844953,1.1514368502141141,1.3097915479432594,-0.3988827621894242

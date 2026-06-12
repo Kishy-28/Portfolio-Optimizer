@@ -1,0 +1,8 @@
+robustness_check,metric_value,limit,passes,robustness_score
+Average Sensitivity Sharpe,0.6408730042588605,0.5,True,0.5714285714285714
+Minimum Sensitivity Sharpe,0.5539351342436297,0.5,True,0.5714285714285714
+Average Walk-Forward Sharpe,-1.0120626856025523,0.5,False,0.5714285714285714
+Out-of-Sample Sharpe,1.1315575194691274,0.5,True,0.5714285714285714
+Average Sensitivity Drawdown,-0.39888258898937085,-0.3,False,0.5714285714285714
+Average Walk-Forward Drawdown,-0.35370174669704646,-0.3,False,0.5714285714285714
+Out-of-Sample Drawdown,-0.19829496041659678,-0.3,True,0.5714285714285714

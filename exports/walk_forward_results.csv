@@ -1,0 +1,2 @@
+train_start_date,train_end_date,test_start_date,test_end_date,test_total_return,test_annualized_return,test_annualized_volatility,test_sharpe_ratio,test_max_drawdown,test_final_value,AAPL_weight,MSFT_weight,GOOGL_weight,AMZN_weight
+2020-01-02,2021-12-30,2021-12-31,2022-12-30,-0.3354530243790157,-0.3365340840669149,0.3522848795973572,-1.0120618417526586,-0.35370187951304055,0.6730483735781552,0.4920596683908029,0.0,0.507940331609197,3.7820575115726596e-18

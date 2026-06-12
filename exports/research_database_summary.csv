@@ -1,0 +1,46 @@
+research_section,study_name,stored_at,rows,columns,is_empty
+portfolio_studies,Optimized Max Sharpe Portfolio,2026-06-10 00:02:22,1,4,False
+portfolio_studies,Optimized Minimum Volatility Portfolio,2026-06-10 00:02:22,1,4,False
+portfolio_studies,Constrained Max Sharpe Portfolio,2026-06-10 00:02:22,1,4,False
+portfolio_studies,Turnover-Constrained Max Sharpe Portfolio,2026-06-10 00:02:22,1,4,False
+portfolio_studies,Portfolio Backtest,2026-06-10 00:02:22,1,13,False
+portfolio_studies,Benchmark Backtest,2026-06-10 00:02:22,1,11,False
+portfolio_studies,Performance Summary,2026-06-10 00:02:22,1,8,False
+portfolio_studies,Attribution Summary,2026-06-10 00:02:22,4,2,False
+portfolio_studies,Capacity Summary,2026-06-10 00:02:22,1,5,False
+strategy_studies,Strategy Summary,2026-06-10 00:02:22,6,7,False
+strategy_studies,Strategy Comparison,2026-06-10 00:02:22,6,19,False
+strategy_studies,Strategy Rankings,2026-06-10 00:02:22,6,26,False
+strategy_studies,Walk-Forward Results,2026-06-10 00:02:22,1,14,False
+strategy_studies,Out-of-Sample Results,2026-06-10 00:02:22,1,14,False
+strategy_studies,Sensitivity Analysis,2026-06-10 00:02:22,12,16,False
+strategy_studies,Robustness Analysis,2026-06-10 00:02:22,1,5,False
+strategy_studies,Robustness Dashboard,2026-06-10 00:02:22,7,5,False
+regime_studies,Market Regime Summary,2026-06-10 00:02:22,6,8,False
+regime_studies,Latest Market Regime,2026-06-10 00:02:22,1,7,False
+regime_studies,Regime Attribution,2026-06-10 00:02:22,6,8,False
+regime_studies,Best Regime,2026-06-10 00:02:22,1,8,False
+regime_studies,Worst Regime,2026-06-10 00:02:22,1,8,False
+regime_studies,Regime Strategy Analysis,2026-06-10 00:02:22,12,8,False
+regime_studies,Best Strategy By Regime,2026-06-10 00:02:22,6,8,False
+regime_studies,Worst Strategy By Regime,2026-06-10 00:02:22,6,8,False
+forecast_studies,Expected Return Forecasts,2026-06-10 00:02:22,4,5,False
+forecast_studies,Forecast Evaluation,2026-06-10 00:02:22,4,7,False
+forecast_studies,Regime Forecast Analysis,2026-06-10 00:02:22,4,10,False
+forecast_studies,Best Forecast Regime,2026-06-10 00:02:22,1,9,False
+forecast_studies,Worst Forecast Regime,2026-06-10 00:02:22,1,9,False
+forecast_studies,Adaptive Forecast Comparison,2026-06-10 00:02:22,4,6,False
+forecast_studies,Best Forecast Model,2026-06-10 00:02:22,1,6,False
+forecast_studies,Worst Forecast Model,2026-06-10 00:02:22,1,6,False
+forecast_studies,Adaptive Forecast Recommendation,2026-06-10 00:02:22,1,5,False
+risk_studies,Drawdown Summary,2026-06-10 00:02:22,1,3,False
+risk_studies,Value-at-Risk Summary,2026-06-10 00:02:22,2,5,False
+risk_studies,Historical Stress Test,2026-06-10 00:02:22,2,6,False
+risk_studies,Scenario Analysis,2026-06-10 00:02:22,3,2,False
+risk_studies,Market Shock Analysis,2026-06-10 00:02:22,6,2,False
+risk_studies,Concentration Summary,2026-06-10 00:02:22,1,3,False
+risk_studies,Tail Risk Summary,2026-06-10 00:02:22,1,4,False
+risk_studies,Risk Dashboard,2026-06-10 00:02:22,1,20,False
+risk_studies,Risk Governance Report,2026-06-10 00:02:22,7,4,False
+dashboard_outputs,Regime Forecast Dashboard,2026-06-10 00:02:22,9,3,False
+dashboard_outputs,Regime Strategy Dashboard,2026-06-10 00:02:22,12,7,False

@@ -1,0 +1,7 @@
+research_section,number_of_studies,total_rows,total_columns,empty_studies,non_empty_studies,completion_rate
+dashboard_outputs,2,21,10,0,2,1.0
+forecast_studies,9,21,63,0,9,1.0
+portfolio_studies,9,12,55,0,9,1.0
+regime_studies,8,39,63,0,8,1.0
+risk_studies,9,24,49,0,9,1.0
+strategy_studies,8,40,106,0,8,1.0
