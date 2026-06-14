@@ -1,5 +1,5 @@
 import os
-from datetime import date
+from datetime import date, timedelta
 
 import pandas as pd
 import plotly.express as px
@@ -93,9 +93,8 @@ def show_top_bar():
 
     live_results = st.session_state.get("live_results")
     if live_results is not None:
-        current_regime = live_results.get(
-            "latest_market_regime",
-            {},
+        current_regime = (
+            live_results.get("latest_market_regime") or {}
         ).get("market_regime", "Unknown")
     elif not market_regime_summary.empty:
         regime_column = next(
@@ -919,7 +918,16 @@ st.sidebar.caption(f"Weights: {input_min_weight:.0%} to {input_max_weight:.0%}")
 st.sidebar.caption(f"Value: ${input_portfolio_value:,.0f}")
 st.sidebar.caption(f"Simulations: {input_monte_carlo_portfolios:,}")
 
-if run_optimizer_button:
+latest_available_date = date.today() - timedelta(days=2)
+
+if run_optimizer_button and input_end_date > latest_available_date:
+    st.error(
+        "Historical data isn't available for the selected end date. "
+        "Please choose an end date on or before "
+        f"{latest_available_date.strftime('%B %d, %Y')} "
+        "(a couple of days prior to today)."
+    )
+elif run_optimizer_button:
     try:
         with st.spinner("Running live portfolio optimizer..."):
             live_results = run_portfolio_optimizer(
